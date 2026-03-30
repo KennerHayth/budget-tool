@@ -41,3 +41,13 @@ def unlock_user(id:int, db: Session):
     db.refresh(user)
     return user
 
+def verify_login(username:str, password:str, db:Session):
+    user = db.query(Users).filter(Users.user == username, Users.password == password).first()
+        
+    if not user:
+        return "invalid"
+    
+    if user.locked:
+        return "locked"
+
+    return "success"
