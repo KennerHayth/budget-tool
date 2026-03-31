@@ -7,9 +7,9 @@ class Users(base):
 
     user: Mapped[str] = mapped_column(unique=True)
     userid: Mapped[int] = mapped_column(primary_key=True, index=True)
-    locked: Mapped[bool]
+    locked: Mapped[bool]= mapped_column(default=False, server_default="false")
     password: Mapped[str]
-    admin: Mapped[bool]
+    admin: Mapped[bool]= mapped_column(default=False, server_default="false")
 
 class Transaction(base):
     __tablename__ = "Transactions"

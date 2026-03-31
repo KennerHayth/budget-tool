@@ -20,12 +20,12 @@ def get_transactions(id: int, db: Session = Depends(get_db)):
         userid =user.userid,
         type = "get",
         success = False,
-        details = "requesting transactions"
+        details = "requesting transactions for " + user.user
     )
     # log the request that has been made
     request = start_request(requset_details, db)
 
-    transactions = db.query(Transaction).filter(Transaction.userid == id).all()
+    transactions = db.query(Transaction).filter(Transaction.userid == id).first()
 
     if not transactions:
         raise HTTPException(status_code=404, detail="transactions not found")
@@ -33,8 +33,11 @@ def get_transactions(id: int, db: Session = Depends(get_db)):
     # set the request as complete
     completed_request = update_request(request.requestid, db)
     if not completed_request:
-        raise HTTPException(status_code= 404, detail ="error not found")
+        db.commit()
+        raise HTTPException(status_code= 404, detail ="request not found")
+    db.commit()
 
+    transactions = db.query(Transaction).filter(Transaction.userid == id).all()
 
     return transactions
     
