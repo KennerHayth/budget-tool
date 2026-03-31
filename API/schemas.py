@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,EmailStr
 
 class Usercreate(BaseModel):
-    user:str
+    user:EmailStr
     password:str
     locked:bool = False
     Admin:bool = False

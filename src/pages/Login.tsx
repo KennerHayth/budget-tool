@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import { Link } from "react-router-dom"
 
 interface ButtonProps{
     onClick: () => void
@@ -88,7 +88,7 @@ export default function LoginPage(){
 
             <div>
 
-            <p  style = {{color:"white"}}>register new account</p>
+            <p><Link to="/Register" style = {{color:"white"}}> register new account</Link> </p>
 
             </div>
         </div>
