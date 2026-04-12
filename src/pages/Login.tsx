@@ -46,53 +46,55 @@ export default function LoginPage(){
 
 
     return(
-    <div style = {{
-        display:"flex",
-        flexDirection:"column",
-        background:"#56b5f5", 
-        height:"100vh", 
-        width: "100vh", 
-        alignItems:"center", 
-        justifyContent:"center"}}>
+    <div style = {{display:"grid", gridTemplateColumns:"40% 60%"}}>
 
-        <div>
+        <div style = {{background:"#333131"}}><h1>Placeholder</h1></div>
+
+        <div style = {{
+            display:"flex",
+            flexDirection:"column",
+            background:"#56b5f5", 
+            height:"100vh", 
+            alignItems:"center", 
+            justifyContent:"center"}}>
+
             <h1 style = {{}}>Welcome</h1>
             <p style = {{color:"white"}}>log in or register below</p>
             {error && <p style={{color:"red"}}>{error}</p>}
 
-        </div>
         
-        <div style={{ 
-            display: "flex", 
-            flexDirection: "column", 
-            padding: "15px 20px", 
-            alignItems: "center", 
-            gap: "12px"   
-            }}>
-
-            <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="username"
-            />
-
-            <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-            />
             
-            <LoginButton onClick={handleLogin}/>
+            <div style={{ 
+                display: "flex", 
+                flexDirection: "column", 
+                padding: "15px 20px", 
+                alignItems: "center", 
+                gap: "12px"   
+                }}>
 
-            <div>
+                <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="username"
+                />
 
-            <p><Link to="/Register" style = {{color:"white"}}> register new account</Link> </p>
+                <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="password"
+                />
+                
+                <LoginButton onClick={handleLogin}/>
 
+                <p><Link to="/Register" style = {{color:"white"}}> register new account</Link> </p>
+
+                
             </div>
         </div>
 
+        
 
 
     </div>)
