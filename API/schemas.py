@@ -11,3 +11,7 @@ class Requestcreate(BaseModel):
     type:str
     success:bool = False
     details:str
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str

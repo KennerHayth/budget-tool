@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
+import { useAuth } from "../Auth/AuthProvider"
+
 
 interface ButtonProps{
     onClick: () => void
@@ -11,7 +13,7 @@ function LoginButton({onClick}: ButtonProps){
     return <button onClick={onClick}>Login</button>
 }    
 
-const API_URL = "http://127.0.0.1:8000"
+const API_URL = "http://localhost:8000"
 
 export default function LoginPage(){
 
@@ -20,15 +22,26 @@ export default function LoginPage(){
     const [password,setPassword] = useState("");
     const [error, setError] = useState("")
 
+    const { refresh } = useAuth()  // add this
+
+
     const handleLogin = async () => {
         if (!username || !password){
             setError("please enter your username and password")
             return
         }
         try{
-        const response = await fetch(
-            `${API_URL}/user/verify?username=${username}&password=${password}`
-        )
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
 
         if (response.status ===401){
             setError("invalid username or password")
@@ -37,7 +50,12 @@ export default function LoginPage(){
             setError("Your account has been locked")
             return
         } 
+        if (response.status ===404){
+            setError("invalid username or password")
+            return
+        } 
 
+        await refresh()
         navigate("/home")
         } catch {
             setError("could not connect to server")

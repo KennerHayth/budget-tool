@@ -14,4 +14,10 @@ interface CardData{
     iconBG ?: string;
     iconColor ?:string;
 
-}
+// }
+
+// const cards: CardData[] = [
+//     {
+        
+//     }
+// ]
