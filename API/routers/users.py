@@ -27,6 +27,8 @@ def create_user(newuser: Usercreate, db:Session = Depends(get_db)):
 
     new_user = Users(
         user= newuser.user,
+        first_name = newuser.first_name,
+        last_name = newuser.last_name,
         password= hash_password(newuser.password),
         locked = False
     )

@@ -10,6 +10,8 @@ class Users(base):
     locked: Mapped[bool]= mapped_column(default=False, server_default="false")
     password: Mapped[str]
     admin: Mapped[bool]= mapped_column(default=False, server_default="false")
+    first_name: Mapped[str]
+    last_name: Mapped[str]
 
 class Transaction(base):
     __tablename__ = "Transactions"

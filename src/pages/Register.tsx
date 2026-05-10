@@ -10,7 +10,7 @@ function SubmitButton({onClick}: ButtonProps){
     return <button onClick={onClick}>Submit</button>
 }    
 
-const API_URL = "http://127.0.0.1:8000"
+const API_URL = "http://localhost:8000"
 
 
 
@@ -19,6 +19,8 @@ const API_URL = "http://127.0.0.1:8000"
 export default function Register(){ 
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
+    const [Firstname,setFirstname] = useState("");
+    const [Lastname,setLastname] = useState("");
     const [error,setError] = useState("");
     const navigate = useNavigate()
 
@@ -46,7 +48,7 @@ export default function Register(){
         const createResponse = await fetch(`${API_URL}/user/create`, {
             method:"POST",
             headers:{"Content-Type" : "application/json"},
-            body : JSON.stringify({ user: username, password: password, locked: false, admin: false 
+            body : JSON.stringify({ user: username, password: password,first_name: Firstname,last_name:Lastname, locked: false, admin: false 
             })
         })
 
@@ -97,6 +99,20 @@ export default function Register(){
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
+            />
+            
+            <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
+            type="text"
+            value={Firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+            placeholder="first name"
+            />
+            
+            <input style = {{maxHeight:"4vh", maxWidth:"30vh"}}
+            type="text"
+            value={Lastname}
+            onChange={(e) => setLastname(e.target.value)}
+            placeholder="last name"
             />
             
             <SubmitButton onClick={handleRegister}/>

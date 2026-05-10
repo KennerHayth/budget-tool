@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "./AuthProvider"; // adjust path if needed
+import { useAuth } from "./UseAuth"; // adjust path if needed
 
 export function PublicRoute() {
     const { user, initialized } = useAuth();

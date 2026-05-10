@@ -4,7 +4,7 @@ import Homepage from "./pages/Homepage"
 import Register from "./pages/Register"
 import { ProtectedRoute } from "./Auth/ProtectedRoute"
 import { PublicRoute } from "./Auth/PublicRoute"
-import { useAuth } from "./Auth/AuthProvider"
+import { useAuth } from "./Auth/UseAuth"
 
 function AppRoutes() {
     const { initialized } = useAuth();
