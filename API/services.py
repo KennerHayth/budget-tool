@@ -58,14 +58,30 @@ def verify_login(username:str, password:str, db:Session):
     user = db.query(Users).filter(Users.user == username).first()
 
     if not user:
-        return "invalid"
+        return False
 
     verified = bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8"))
 
     if not verified:
-        return "invalid"
+        return False
     
     if user.locked:
-        return "locked"
+        return user
 
-    return "success"
+    return user
+
+def verify_user(username:str, password:str, db:Session):
+    user = db.query(Users).filter(Users.user == username).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="user not found")
+
+    verified = bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8"))
+
+    if not verified:
+        raise HTTPException(status_code=400, detail="could not verify user")
+    
+    if user.locked:
+        raise HTTPException(status_code=400, detail="could not verify user")
+
+    return user
