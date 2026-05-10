@@ -5,6 +5,8 @@ class Usercreate(BaseModel):
     password:str
     locked:bool = False
     Admin:bool = False
+    first_name: str
+    last_name:str
 
 class Requestcreate(BaseModel):
     userid:int

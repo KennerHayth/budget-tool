@@ -9,6 +9,7 @@ from database import get_db
 from services import verify_login, verify_user
 from models import Users
 from schemas import LoginRequest
+from dependancies import get_user
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -52,7 +53,7 @@ def verify_user (data:LoginRequest,response:Response, db:Session = Depends(get_d
     return {"status": "success"}
 
 @router.get("/me")
-def me(request: Request):
+def me(request: Request, db = Depends(get_db)):
     token = request.cookies.get("access_token")
 
     if not token:
@@ -60,7 +61,9 @@ def me(request: Request):
 
     try:
         payload = jwt.decode(token, key, algorithms=[ALGORITHM])
-        return {"user_id": payload["sub"]}
+        user_id = int(payload["sub"])
+        current_user = get_user(user_id, db)
+        return {"user_id": payload["sub"], "username":current_user.user,"first_name":current_user.first_name,"last_name":current_user.last_name}
     except:
         raise HTTPException(status_code=401)
 

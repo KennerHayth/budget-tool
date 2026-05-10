@@ -1,8 +1,8 @@
-interface GreetingProps{
-    name:string
-}
+import { useAuth } from "../Auth/UseAuth.ts";
 
-export default function Greeting({name}:GreetingProps) {
+
+export default function Greeting() {
+    const { user } = useAuth();
     const hour = new Date().getHours();
     const timeofDay = hour < 12 ?"morning" : hour < 18 ? "afternoon" : "evening"
     return(
@@ -11,7 +11,7 @@ export default function Greeting({name}:GreetingProps) {
                 Good {timeofDay}!
             </p>
             <p style = {{fontSize:22,color:"#EDEAE4", fontWeight:"bold"}}>
-                Welcome back, {name}
+                Welcome back, {user?.first_name}
             </p>
         </div>
     )

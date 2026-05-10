@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
-import { useAuth } from "../Auth/AuthProvider"
+import { useAuth } from "../Auth/UseAuth"
 
 
 interface ButtonProps{
