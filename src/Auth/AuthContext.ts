@@ -3,6 +3,8 @@ import { createContext } from "react";
 type User = {
     user_id: string;
     username: string;
+    first_name:string;
+    last_name:string;
 } | null;
 
 export type AuthContextType = {

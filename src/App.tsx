@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginPage from "./pages/Login"
 import Homepage from "./pages/Homepage"
+import Budgets from "./pages/Budgets"
 import Register from "./pages/Register"
 import { ProtectedRoute } from "./Auth/ProtectedRoute"
 import { PublicRoute } from "./Auth/PublicRoute"
@@ -22,6 +23,7 @@ function AppRoutes() {
 
             <Route element={<ProtectedRoute />}>
                 <Route path="/Home" element={<Homepage />} />
+                <Route path="/budgets" element={<Budgets />} />
             </Route>
         </Routes>
     );

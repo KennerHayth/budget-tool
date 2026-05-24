@@ -17,3 +17,8 @@ class Requestcreate(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class Budgetcreate(BaseModel):
+    userid:int
+    budgetid:int
+    name:str

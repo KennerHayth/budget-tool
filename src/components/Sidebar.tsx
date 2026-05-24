@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { type LucideIcon, ArrowLeftRight, Home, LayoutDashboard, LogOut, PiggyBank, Receipt, Settings, User} from "lucide-react";
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface ButtonProps{
     title:string;
@@ -42,7 +41,11 @@ const bottomItems = [
 
 
 export default function Sidebar(){
-    const [active, setActive] = useState("Home");
+    const navigate = useNavigate();
+    const location = useLocation();
+    const handleClick = (title:string) => {
+        navigate(`/${title.toLocaleLowerCase()}`)
+    };
 
     return(
         
@@ -69,8 +72,8 @@ export default function Sidebar(){
                     key={item.title}
                     icon = {item.icon}
                     title={item.title}
-                    active={active === item.title}
-                    onClick={() => setActive(item.title)}
+                    active={location.pathname === `/${item.title.toLowerCase()}`}
+                    onClick={() => handleClick(item.title)}
                     />
                 ))}
             </div>
@@ -89,8 +92,8 @@ export default function Sidebar(){
                     key={item.title}
                     icon = {item.icon}
                     title={item.title}
-                    active={active === item.title}
-                    onClick={() => setActive(item.title)}
+                    active={location.pathname === `/${item.title.toLowerCase()}`}
+                    onClick={() => handleClick(item.title)}
                     />
                 ))}
             </div>
