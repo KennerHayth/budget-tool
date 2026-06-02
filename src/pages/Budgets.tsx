@@ -2,9 +2,24 @@ import { useState } from "react"
 import Sidebar from "../components/Sidebar"
 // import Greeting from "../components/Greeting"
 
-const placeholder = 10
+const mockdata = [
+    {Category: "cat 1", Allocated:5},
+    {Category: "cat 2", Allocated:12},
+    {Category: "cat 3", Allocated:42},
+    {Category: "cat 4", Allocated:15},
+    {Category: "cat 5", Allocated:26},
+
+]
+
+const income = (100000)
+
+const allocatedtotal = mockdata.reduce((sum,row) => sum + (row.Allocated), 0)
+
+const allocatedmoney = ((allocatedtotal/100) * income)
+
 
 const list = ["budget 1", "budget 2", "budget 3","budget 10"]
+
 
 export default function Budgets() {
 const [selectedBudget,setSelectedBudget] = useState("")
@@ -38,26 +53,40 @@ const [selectedBudget,setSelectedBudget] = useState("")
             <div>
                 {/* cards */}
                 <div className = "budgetcardparent">
-                    <div className="budgetcard">{placeholder}</div>
-                    <div className="budgetcard">{placeholder}</div>
-                    <div className="budgetcard">{placeholder}</div>
+                    <div className="budgetcard">
+                        <p>Projected Income</p>
+                        ${income.toLocaleString("en-US")}
+                        
+                        </div>
+                    <div className="budgetcard">
+                        {allocatedtotal != 100 ?<div className="budgetcardalert">Total % Allocated</div> :<p>Total % Allocated</p>}
+                        {allocatedtotal}%
+                        
+                        </div>
+                    <div className="budgetcard">
+                        {allocatedtotal != 100 ?<div className="budgetcardalert">Total $ Allocated</div> :<p>Total $ Allocated</p>}
+                        ${allocatedmoney.toLocaleString("en-US")}
+                        
+                        </div>
                 </div>
                 {/* table */} 
                 <div className= "budgettableparent">
                     <table>
-                    <thead className = "budgettablehead">
+                    <thead>
                         <tr>
                         <th>Category</th>
                         <th>% Allocated</th>
                         <th>$ Amount</th>
                         </tr>
                     </thead>
-                    <tbody className = "budgettablebody">
-                        <tr>
-                        <td>test</td>
-                        <td>30%</td>
-                        <td>$15</td>
-                        </tr>
+                    <tbody >
+                        {mockdata.map((row) =>(
+                            <tr key={row.Category}>
+                                <td>{row.Category}</td>
+                                <td>{row.Allocated}</td>
+                                <td>{((row.Allocated/100) * income).toLocaleString("en-US")}</td>
+                            </tr>
+                        ))}
                     </tbody>
                     </table>
                 </div>

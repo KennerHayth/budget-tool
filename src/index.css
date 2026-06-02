@@ -132,20 +132,54 @@ code {
   min-width: 150px;
   margin:.5rem
 }
-
-.budgettableparent{
-  display:flex;
-  justify-content: center;
-  margin-top: 4rem;
+.budgetcard p{
+  font-size: 20px;
+  font-weight: bold;
+  color: #6B8C7D
 }
 
-.budgettablehead{
-  border-bottom: 1px solid #3F4553  ;
-
+.budgetcardalert{
+  font-size: 20px;
+  font-weight: bold;
+  color: #A8895A
 }
 
 
-.budgettablebody{
-  display:flex
+.budgettableparent {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
 
+.budgettableparent table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.budgettableparent th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 500;
+  color: var(--text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.budgettableparent td {
+  padding: 12px 16px;
+  color: var(--text-h);
+  border-bottom: 1px solid var(--border);
+}
+
+.budgettableparent tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.budgettableparent tbody tr:hover {
+  background: var(--accent-bg);
 }
