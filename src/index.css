@@ -100,12 +100,17 @@ code {
   background: var(--code-bg);
 }
 
+.pagemain{
+  display:flex;
+  gap:1rem
+}
 
-.budgetcontent{
+.pagecontent{
+  height:100%;
+  width: 100%;
   display:flex;
   flex-direction: column;
   align-self: flex-start;
-  width:100%;
 }
 
 .budgetselection{
@@ -123,7 +128,7 @@ code {
   justify-content: center;
 }
 
-.budgetcard {
+.KPIcard {
   align-items: flex-start;
   background:#272B33;
   border-radius: 12px;
@@ -132,7 +137,7 @@ code {
   min-width: 150px;
   margin:.5rem
 }
-.budgetcard p{
+.budgetcard{
   font-size: 20px;
   font-weight: bold;
   color: #6B8C7D
