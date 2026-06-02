@@ -1,64 +1,72 @@
+import { useState } from "react"
 import Sidebar from "../components/Sidebar"
 // import Greeting from "../components/Greeting"
 
+const placeholder = 10
+
+const list = ["budget 1", "budget 2", "budget 3","budget 10"]
+
 export default function Budgets() {
+const [selectedBudget,setSelectedBudget] = useState("")
+
     return(
-        <div style = {{display:"flex",height:"100vh"}}>
-            
+        <div style={{display:"flex", gap: "1rem"}}>
             
             {/* sidebar */}
-            <div style = {{}}>
-                <Sidebar/>
-            </div>
-            <main style={{flex:1}}>
-
-            <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>
+           <Sidebar/>
+            <div className = "budgetcontent">
+            <div className = "budgetselection">
                 {/* generate based on user's budgets that have been made. default will be create new budget if no budgets are available */}
-                <select style ={{width:"50vw", height:"2vh"}}>
-                    <option>option 1</option>
-                    <option>option 2</option>
+                <select
+                value = {selectedBudget}
+                onChange = {(e) => setSelectedBudget(e.target.value)}>
+                    <option value="">-- select a budget --</option>
+                    {list.map((budget) => (
+                        <option key={budget} value = {budget}>
+                            {budget}
+                        </option>
+                    ))}
                 </select>
 
                 {/* button to create new budget */}
-                <button style ={{}}>
+                <button>
                 Create Budget
                 </button>
             </div>
-
-
-            {/* cards for % allocated, % unallocated and predicted $ */}
-            <div style ={{display:"flex", gap:"10px"}}>
             
-            <div>Card 1</div>
-            <div>Card 2</div>
-            <div>Card 3</div>
-
-            </div>
-
+            {selectedBudget && (
             <div>
-            {/* table with budget categories, % allocated, and $ value of predicated income */}
-            <table>
-                <thead>
-                    <tr>
+                {/* cards */}
+                <div className = "budgetcardparent">
+                    <div className="budgetcard">{placeholder}</div>
+                    <div className="budgetcard">{placeholder}</div>
+                    <div className="budgetcard">{placeholder}</div>
+                </div>
+                {/* table */} 
+                <div className= "budgettableparent">
+                    <table>
+                    <thead className = "budgettablehead">
+                        <tr>
                         <th>Category</th>
                         <th>% Allocated</th>
                         <th>$ Amount</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                {/* generate table data here */}
-                <td>test</td>
-                <td>30%</td>
-                <td>15$</td>
-
-                </tbody>
-            </table>
-
-
+                        </tr>
+                    </thead>
+                    <tbody className = "budgettablebody">
+                        <tr>
+                        <td>test</td>
+                        <td>30%</td>
+                        <td>$15</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
             </div>
+            )}
 
-            </main>
+        </div>
+
+            
 
 
         </div>
