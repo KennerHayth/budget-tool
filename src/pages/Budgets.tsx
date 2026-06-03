@@ -34,6 +34,7 @@ const [selectedBudget,setSelectedBudget] = useState("")
             <div className = "budgetselection">
                 {/* generate based on user's budgets that have been made. default will display create new budget if no budgets are available */}
                 <select
+                className = "budgetselector"
                 value = {selectedBudget}
                 onChange = {(e) => setSelectedBudget(e.target.value)}>
                     <option value="">-- select a budget --</option>
@@ -45,7 +46,7 @@ const [selectedBudget,setSelectedBudget] = useState("")
                 </select>
 
                 {/* button to create new budget */}
-                <button>
+                <button className = "createbutton">
                 Create Budget
                 </button>
             </div>
@@ -82,6 +83,11 @@ const [selectedBudget,setSelectedBudget] = useState("")
                                 <td>{((row.Allocated/100) * income).toLocaleString("en-US")}</td>
                             </tr>
                         ))}
+                        <tr>
+                            <td>
+                                Add Row
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
                 </div>

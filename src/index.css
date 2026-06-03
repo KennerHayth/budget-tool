@@ -124,7 +124,7 @@ code {
   display:flex;
   flex-direction:row;
   flex:1;
-  margin-top: 4rem;
+  margin-top: 2rem;
   justify-content: center;
 }
 
@@ -134,9 +134,36 @@ code {
   border-radius: 12px;
   padding: 1.25rem;
   text-align: center;
-  min-width: 150px;
-  margin:.5rem
+  margin:1.5rem
 }
+
+.budgetselector{
+  background:#272B33;
+  border-radius: 12px;
+  padding: .4rem;
+  text-align: center;
+  margin:.5rem;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #EDEAE4;
+  cursor: pointer;
+}
+
+.createbutton{
+  background:#379b40;
+  border-radius: 12px;
+  padding: .4rem;
+  text-align: center;
+  margin:.5rem;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: capitalize;
+  border-color: #908d96;
+  color: #EDEAE4 ;
+  cursor: pointer;
+}
+
 .budgetcard{
   font-size: 20px;
   font-weight: bold;
@@ -149,6 +176,7 @@ code {
   color: #A8895A
 }
 
+/* all elements for the table in the budget page */
 
 .budgettableparent {
   width: 100%;
@@ -188,3 +216,4 @@ code {
 .budgettableparent tbody tr:hover {
   background: var(--accent-bg);
 }
+/* all elements for the table in the budget page */
