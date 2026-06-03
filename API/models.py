@@ -37,7 +37,7 @@ class Categories(base):
     categoryid: Mapped[int] = mapped_column(primary_key=True, index=True)
     budgetid: Mapped[int] = mapped_column(index=True)
     category: Mapped[str] = mapped_column(index=True)
-    amount: Mapped[int]
+    allocation: Mapped[int]
 
 class Request(base):
     __tablename__ = "Request"

@@ -19,8 +19,9 @@ def get_budgets(userid:int, db:Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="budget not found")
     return budgets
 
+# hook up "create budget" button to this servercall (using a modal to prompt the user to create a name)
 @router.post("/create")
-def get_budgets(newbudget: Budgetcreate, db:Session = Depends(get_db)):
+def create_budget(newbudget: Budgetcreate,request:Request, db:Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     try:
         payload = jwt.decode(token, key, algorithms=[ALGORITHM])

@@ -84,9 +84,11 @@ const [selectedBudget,setSelectedBudget] = useState("")
                             </tr>
                         ))}
                         <tr>
-                            <td>
+                            <td style= {{cursor:"pointer"}}>
                                 Add Row
                             </td>
+                            <td></td>
+                            <td></td>       
                         </tr>
                     </tbody>
                     </table>
