@@ -87,6 +87,7 @@ const [selectedBudget,setSelectedBudget] = useState("")
                             <td style= {{cursor:"pointer"}}>
                                 Add Row
                             </td>
+                            {/* empty data to ensure whole row is highlighted when hovering */}
                             <td></td>
                             <td></td>       
                         </tr>

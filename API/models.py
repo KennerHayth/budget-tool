@@ -35,9 +35,8 @@ class Budgets(base):
 class Categories(base):
     __tablename__ = "Categories"
     categoryid: Mapped[int] = mapped_column(primary_key=True, index=True)
-    budgetid: Mapped[int] = mapped_column(index=True)
-    category: Mapped[str] = mapped_column(index=True)
-    allocation: Mapped[int]
+    userid: Mapped[int] = mapped_column(index=True)
+    category: Mapped[str]
 
 class Request(base):
     __tablename__ = "Request"
@@ -46,3 +45,11 @@ class Request(base):
     type: Mapped[str] = mapped_column(index=True)
     success: Mapped[bool] = mapped_column(index=True)
     details: Mapped[int]
+
+class Allocations(base):
+    __tablename__ = "Allocations"
+    allocationid: Mapped[int] = mapped_column(primary_key=True, index=True)
+    budgetid: Mapped[int] = mapped_column(index=True)
+    categoryid: Mapped[int] = mapped_column(index=True)
+    allocation: Mapped[int]
+    hidden: Mapped[bool]
