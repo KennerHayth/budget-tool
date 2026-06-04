@@ -12,30 +12,36 @@ key = "generate this"
 
 ALGORITHM = "HS256"
 
-@router.get("/{userid}")
-def get_budgets(userid:int, db:Session = Depends(get_db)):
-    budgets = db.query(Budgets).filter(Budgets.userid == userid).all()
+@router.get("")
+def get_budgets(request:Request, db:Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    try:
+        payload = jwt.decode(token, key, algorithms=[ALGORITHM])
+        user_id = int(payload["sub"])
+    except:
+        raise HTTPException(detail="Token not found", status_code=401)
+    
+    budgets = db.query(Budgets).filter(Budgets.userid == user_id).all()
     if not budgets:
         raise HTTPException(status_code=404, detail="budget not found")
     return budgets
 
 # hook up "create budget" button to this servercall (using a modal to prompt the user to create a name)
-@router.post("/create")
+@router.post("")
 def create_budget(newbudget: Budgetcreate,request:Request, db:Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     try:
         payload = jwt.decode(token, key, algorithms=[ALGORITHM])
         user_id = int(payload["sub"])
     except:
-        raise HTTPException(detail="Token not found", status_code=404)
+        raise HTTPException(detail="Token not found", status_code=401)
 
-    budget = newbudget(    
+    budget = Budgets(    
     userid = user_id,
     name= newbudget.name)
 
     db.add(budget)
     db.commit()
-    db.refresh
+    db.refresh(budget)
     return budget
-
 

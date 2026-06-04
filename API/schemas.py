@@ -19,11 +19,7 @@ class LoginRequest(BaseModel):
     password: str
 
 class Budgetcreate(BaseModel):
-    userid:int
-    budgetid:int
     name:str
 
 class Categorycreate(BaseModel):
-    budgetid:int
     category: str
-    allocation:int

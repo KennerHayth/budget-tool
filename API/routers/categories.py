@@ -40,7 +40,7 @@ def get_budget_details(budgetid:int,request:Request, db:Session = Depends(get_db
 @router.post("/new")
 def create_category(newcategory: Categorycreate,request:Request, db:Session = Depends(get_db)):    
     # check for valid request data (current state is to check for existance)
-    if not newcategory.budgetid or not newcategory.category or not newcategory.allocation:
+    if not newcategory.category or not newcategory.allocation:
         HTTPException(status_code=402, detail="incomplete request, please fill out all required fields")
    
     # verify user is the owner of the budget (or authorized in future state)
@@ -52,7 +52,7 @@ def create_category(newcategory: Categorycreate,request:Request, db:Session = De
         payload = jwt.decode(token, key, algorithms=[ALGORITHM])
         user_id = int(payload["sub"])
     except:
-        raise HTTPException(detail="Token not found", status_code=404)
+        raise HTTPException(detail="Token not found", status_code=401)
 
     owner = db.query(Budgets).filter(Budgets.userid == user_id and Budgets.budgetid ==newcategory.budgetid).all()
     if not owner:

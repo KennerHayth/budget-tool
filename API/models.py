@@ -28,18 +28,20 @@ class Budgets(base):
     __tablename__ = "Budgets"
 
     userid:Mapped[int] = mapped_column(index=True)
-    budgetid:Mapped[int] = mapped_column(primary_key=True, index=True)
+    budgetid:Mapped[int] = mapped_column(primary_key=True, index=True,autoincrement=True)
     name:Mapped[str] 
 
 
 class Categories(base):
     __tablename__ = "Categories"
+
     categoryid: Mapped[int] = mapped_column(primary_key=True, index=True)
     userid: Mapped[int] = mapped_column(index=True)
     category: Mapped[str]
 
 class Request(base):
     __tablename__ = "Request"
+
     requestid: Mapped[int] = mapped_column(primary_key=True, index=True)
     userid: Mapped[int] = mapped_column(index=True)
     type: Mapped[str] = mapped_column(index=True)
@@ -48,6 +50,7 @@ class Request(base):
 
 class Allocations(base):
     __tablename__ = "Allocations"
+
     allocationid: Mapped[int] = mapped_column(primary_key=True, index=True)
     budgetid: Mapped[int] = mapped_column(index=True)
     categoryid: Mapped[int] = mapped_column(index=True)
