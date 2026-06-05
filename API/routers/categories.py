@@ -74,3 +74,21 @@ def create_category(newcategory: Categorycreate,request:Request, db:Session = De
     # refresh/return data to webpage (bottom center of the table a "save changes" button should appear, once clicked, trigger this process)
     all_categories = db.query(Categories).filter(Categories.budgetid == newcategory.budgetid).all()
     return all_categories
+
+
+@router.post("")
+def edit_budget_details(Table,request:Request, db:Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    try:
+        payload = jwt.decode(token, key, algorithms=[ALGORITHM])
+        user_id = int(payload["sub"])
+    except:
+        raise HTTPException(detail="Token not found", status_code=401)
+        
+    # check for the budget to exist and is related to the user
+
+    # quick check that data is valid (exist, correct data type,etc)
+
+    # check that all the categories that show in the table exist in both the table and the DB (make them match), while doing this check for duplicates
+
+    # check that all allocations match for the categoryid + budgetid combo

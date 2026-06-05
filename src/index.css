@@ -217,3 +217,24 @@ code {
   background: var(--accent-bg);
 }
 /* all elements for the table in the budget page */
+
+
+.savechanges{
+  display:flex;
+  flex-direction:row;
+  flex:1;
+  margin-top: 2rem;
+  justify-content: center;
+  }
+
+  .savechanges button{
+    min-width: 120px;
+    min-height: 35px;
+    border-radius: 1rem;
+    border:none;
+    background-color: #379b40;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: medium;
+    cursor: pointer;
+  }

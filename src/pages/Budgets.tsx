@@ -11,6 +11,12 @@ type BudgetData = {
     name: string
 }
 
+type AllocationData = {
+    Category:string;
+    CategoryID:number;
+    Allocated:number
+}
+
 async function currentBudgets(){
     const response = await fetch(
         `${API_URL}/budgets`,{
@@ -26,11 +32,8 @@ async function currentBudgets(){
 const income = (100000)
 
 
-type AllocationData = {
-    Category:string;
-    Allocated:number
-}
-const allocationData: AllocationData[] = []
+
+const initialData: AllocationData[] = []
 
 
 // TESTING DATA
@@ -46,11 +49,14 @@ export default function Budgets() {
     const [isOpen, setIsOpen] = useState(false)
     const [newBudget, setNewBudget] = useState("")
     const [budgetArray, setBudgetArray] = useState<BudgetData[]>([])
+    const [savedData, setSavedData] = useState(initialData)
+    // const [loading, setLoading] = useState(false)
+    const [newRow, setNewRow] = useState(-1)
+    const[editing,setEditing] = useState(false)
+    const [editingCell, setEditingCell] = useState<{CategoryID:number, field: keyof AllocationData} | null>(null)
 
-    const [allocations, setAllocations] = useState(allocationData)
 
-
-    const allocatedtotal = allocations.reduce((sum,row) => sum + (row.Allocated), 0)
+    const allocatedtotal = savedData.reduce((sum,row) => sum + (row.Allocated), 0)
 
     const allocatedmoney = ((allocatedtotal/100) * income)
 
@@ -90,8 +96,19 @@ export default function Budgets() {
     }   
 
 
+    async function handleNewRow(){
+        setNewRow(prev => prev - 1)
+        setEditing(true)
+        setSavedData(prevItems => [...prevItems,{Category:"Name Here",CategoryID:newRow,Allocated:0} ])
+    }
 
-
+    const updateCell = (categoryID: number, field: keyof AllocationData, value: string | number) => {
+        setSavedData(prev =>
+            prev.map((row) =>
+                row.CategoryID === categoryID ? { ...row, [field]: value } : row
+            )
+        )
+    }
 
     return(
         <PageLayout>
@@ -150,17 +167,39 @@ export default function Budgets() {
                         </tr>
                     </thead>
                     <tbody >
-                        {allocations.map((row) =>(
-                            <tr key={row.Category}>
-                                <td>{row.Category}</td>
-                                <td>{row.Allocated + "%"}</td>
+                        {savedData.map((row) =>(
+                            <tr key={row.CategoryID}>
+                    <td style={{cursor:"pointer"}} onClick={() => setEditingCell({ CategoryID: row.CategoryID, field: 'Category' })}>
+                        {editingCell?.CategoryID === row.CategoryID && editingCell?.field === 'Category'
+                            ? <input
+                                autoFocus
+                                value={row.Category}
+                                onChange={e => updateCell(row.CategoryID, 'Category', e.target.value)}
+                                onBlur={() => setEditingCell(null)}
+                            />
+                            : row.Category
+                        }
+                    </td>
+
+                    <td style={{cursor:"pointer"}} onClick={() => setEditingCell({ CategoryID: row.CategoryID, field: 'Allocated' })}>
+                        {editingCell?.CategoryID === row.CategoryID && editingCell?.field === 'Allocated'
+                            ? <input
+                                autoFocus
+                                type="number"
+                                value={row.Allocated}
+                                onChange={e => updateCell(row.CategoryID, 'Allocated', Number(e.target.value))}
+                                onBlur={() => setEditingCell(null)}
+                            />
+                            : row.Allocated + "%"
+                        }
+                    </td>
                                 <td>{((row.Allocated/100) * income).toLocaleString("en-US")}</td>
                             </tr>
                         ))}
                         <tr>
                             <td style= {{cursor:"pointer"}}>
                                 <button
-                                onClick = {() => setAllocations(prevItems => [...prevItems,{Category:"Name Here",Allocated:0} ])}
+                                onClick = {() => handleNewRow()}
                                 >Add Row</button>
                             </td>
                             {/* empty data to ensure whole row is highlighted when hovering */}
@@ -169,6 +208,10 @@ export default function Budgets() {
                         </tr>
                     </tbody>
                     </table>
+                </div>
+                <div className= "savechanges">
+                {editing && (
+                <button onClick = {() => {}} >Save Edits</button>)}
                 </div>
             </div>
             )}
