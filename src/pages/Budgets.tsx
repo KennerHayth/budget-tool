@@ -12,10 +12,15 @@ type BudgetData = {
 }
 
 type AllocationData = {
-    Category:string;
-    CategoryID:number;
-    Allocated:number
+    categoryID:number;    
+    category:string;
+    allocation:number
 }
+// type CategoryData = {
+//     categoryid: number;
+//     userid: number;
+//     category: string}
+
 
 async function currentBudgets(){
     const response = await fetch(
@@ -32,8 +37,8 @@ async function currentBudgets(){
 const income = (100000)
 
 
+// const initialData: AllocationData[] = []
 
-const initialData: AllocationData[] = []
 
 
 // TESTING DATA
@@ -45,20 +50,41 @@ const initialData: AllocationData[] = []
 // calculations
 
 export default function Budgets() {
+
     const [selectedBudget,setSelectedBudget] = useState("")
+    // const [refresh, setRefresh] = useState(0)
+    const [savedData, setSavedData] = useState<AllocationData[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [newBudget, setNewBudget] = useState("")
     const [budgetArray, setBudgetArray] = useState<BudgetData[]>([])
-    const [savedData, setSavedData] = useState(initialData)
     // const [loading, setLoading] = useState(false)
     const [newRow, setNewRow] = useState(-1)
     const[editing,setEditing] = useState(false)
     const [editingCell, setEditingCell] = useState<{CategoryID:number, field: keyof AllocationData} | null>(null)
+    // const [savechanges, setSavedChanges] = useState(0)
 
 
-    const allocatedtotal = savedData.reduce((sum,row) => sum + (row.Allocated), 0)
+    const allocatedtotal = savedData.reduce((sum,row) => sum + (row.allocation), 0)
 
     const allocatedmoney = ((allocatedtotal/100) * income)
+
+
+
+    useEffect(() => {
+    async function currentAllocations(){
+        if(!selectedBudget) return
+        const response = await fetch(
+            `${API_URL}/budgets/details/${selectedBudget}`,{
+                method:"GET",
+                credentials:"include",
+                headers:{"content-type":"application/json"},
+            }
+        )
+        const data:AllocationData[] = await response.json()
+        setSavedData(data ?? [])
+        return (data)
+    }currentAllocations()}, [selectedBudget])
+
 
 
     useEffect(() => {
@@ -67,7 +93,7 @@ export default function Budgets() {
             setBudgetArray(data)
         };
         load()
-    }, [])
+    }, [budgetArray])
 
 
     async function createbudget(){
@@ -99,16 +125,38 @@ export default function Budgets() {
     async function handleNewRow(){
         setNewRow(prev => prev - 1)
         setEditing(true)
-        setSavedData(prevItems => [...prevItems,{Category:"Name Here",CategoryID:newRow,Allocated:0} ])
+        setSavedData(prevItems => [...prevItems,{categoryID:newRow,category:"Name Here",allocation:0} ])
     }
 
     const updateCell = (categoryID: number, field: keyof AllocationData, value: string | number) => {
         setSavedData(prev =>
             prev.map((row) =>
-                row.CategoryID === categoryID ? { ...row, [field]: value } : row
+                row.categoryID === categoryID ? { ...row, [field]: value } : row
             )
         )
     }
+
+    async function updateBudgetDetail(){
+        const response  = await fetch(
+            `${API_URL}/budgets/details`,{
+                method:"POST",
+                credentials:"include",
+                headers:{"content-type":"application/json"},
+                body:JSON.stringify({
+                    details:savedData,
+                    budgetID:Number(selectedBudget)
+                })
+            }
+        )
+        const data  = await response.json()
+        // setSavedChanges(prev => prev + 1)
+
+        return(data)
+    }
+
+
+
+
 
     return(
         <PageLayout>
@@ -117,10 +165,10 @@ export default function Budgets() {
                 <select
                 className = "budgetselector"
                 value = {selectedBudget}
-                onChange = {(e) => setSelectedBudget(e.target.value)}>
-                    <option value="">-- select a scenario --</option>
+                onChange = {(e) => {setSelectedBudget(e.target.value)}}>
+                    <option key = "default" value="">-- select a scenario --</option>
                     {budgetArray.map((b) => (
-                        <option key={b.budgetid} value = {b.name}>
+                        <option key={b.budgetid} value = {b.budgetid}>
                             {b.name}
                         </option>
                     ))}
@@ -168,32 +216,32 @@ export default function Budgets() {
                     </thead>
                     <tbody >
                         {savedData.map((row) =>(
-                            <tr key={row.CategoryID}>
-                    <td style={{cursor:"pointer"}} onClick={() => setEditingCell({ CategoryID: row.CategoryID, field: 'Category' })}>
-                        {editingCell?.CategoryID === row.CategoryID && editingCell?.field === 'Category'
+                            <tr key={row.categoryID}>
+                    <td style={{cursor:"pointer"}} onClick={() => {setEditingCell({ CategoryID: row.categoryID, field: 'category' }); setEditing(true)}}>
+                        {editingCell?.CategoryID === row.categoryID && editingCell?.field === 'category'
                             ? <input
                                 autoFocus
-                                value={row.Category}
-                                onChange={e => updateCell(row.CategoryID, 'Category', e.target.value)}
+                                value={row.category}
+                                onChange={e => updateCell(row.categoryID, 'category', e.target.value)}
                                 onBlur={() => setEditingCell(null)}
                             />
-                            : row.Category
+                            : row.category
                         }
                     </td>
 
-                    <td style={{cursor:"pointer"}} onClick={() => setEditingCell({ CategoryID: row.CategoryID, field: 'Allocated' })}>
-                        {editingCell?.CategoryID === row.CategoryID && editingCell?.field === 'Allocated'
+                    <td style={{cursor:"pointer"}} onClick={() => {setEditingCell({ CategoryID: row.categoryID, field: 'allocation' }); setEditing(true)}}>
+                        {editingCell?.CategoryID === row.categoryID && editingCell?.field === 'allocation'
                             ? <input
                                 autoFocus
                                 type="number"
-                                value={row.Allocated}
-                                onChange={e => updateCell(row.CategoryID, 'Allocated', Number(e.target.value))}
+                                value={row.allocation}
+                                onChange={e => updateCell(row.categoryID, 'allocation', Number(e.target.value))}
                                 onBlur={() => setEditingCell(null)}
                             />
-                            : row.Allocated + "%"
+                            : row.allocation + "%"
                         }
                     </td>
-                                <td>{((row.Allocated/100) * income).toLocaleString("en-US")}</td>
+                                <td>{((row.allocation/100) * income).toLocaleString("en-US")}</td>
                             </tr>
                         ))}
                         <tr>
@@ -211,7 +259,7 @@ export default function Budgets() {
                 </div>
                 <div className= "savechanges">
                 {editing && (
-                <button onClick = {() => {}} >Save Edits</button>)}
+                <button onClick = {() => {updateBudgetDetail()}} >Save Edits</button>)}
                 </div>
             </div>
             )}

@@ -21,5 +21,11 @@ class LoginRequest(BaseModel):
 class Budgetcreate(BaseModel):
     name:str
 
-class Categorycreate(BaseModel):
+class UpdateBudgetDetails(BaseModel):
+    categoryID:int
     category: str
+    allocation:int
+
+class BudgetUpdateRequest(BaseModel):
+    details: list[UpdateBudgetDetails]
+    budgetID: int
