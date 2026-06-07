@@ -154,7 +154,11 @@ export default function Budgets() {
         return(data)
     }
 
-
+    const allocationstyling = () => {
+        if (allocatedtotal === 100) return "budgetcard"
+        if (allocatedtotal > 100) return "budgetcardalert"
+        return"budgetcardwarning"
+    }
 
 
 
@@ -198,10 +202,10 @@ export default function Budgets() {
                         <KPICard title="Projected Income" display = {String("$"+income.toLocaleString("en-US"))} textclass="budgetcard"/>
                     </div>
                     <div>
-                        <KPICard title="Total % Allocated" display={String(allocatedtotal)+"%"} textclass={allocatedtotal != 100 ?"budgetcardalert" : "budgetcard"}/>
+                        <KPICard title="Total % Allocated" display={String(allocatedtotal)+"%"} textclass={allocationstyling()}/>
                     </div>
                     <div>
-                        <KPICard title = "Total $ Allocated" display={String("$" + allocatedmoney.toLocaleString("en-US"))} textclass={allocatedtotal != 100 ?"budgetcardalert" : "budgetcard"}/>
+                        <KPICard title = "Total $ Allocated" display={String("$" + allocatedmoney.toLocaleString("en-US"))} textclass={allocationstyling()}/>
                     </div>
                 </div>
                 {/* table */} 
