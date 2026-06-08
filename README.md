@@ -14,7 +14,7 @@ Current progress:
 - Backend API initialized
 - Database structure created
 - User authentication implemented
-- Login page functional (currently redirects to a placeholder dashboard)
+- Login page functional 
 
 Deployment has not yet been released.
 
@@ -22,7 +22,7 @@ Deployment has not yet been released.
 
 ## Planned Features
 
-- Budget creation and management
+- ~~Budget creation and management~~
 - Excel transaction import
 - Loan amortization tracking
 - Spending visualization
@@ -46,9 +46,10 @@ Deployment has not yet been released.
 ### Database
 - PostgreSQL
 
-### Infrastructure
-- AWS (planned deployment)
-
+### Planned Infrastructure
+- Render (API)
+- Neon (Postgre Database)
+- Vercel(Front End)
 ---
 
 ## Why I Built This
